@@ -10,18 +10,18 @@ class TSegment3D : public IObject {
       : first_(first), second_(second) {}
 
   bool Intersects(std::shared_ptr<IObject> other) const override {
-    return other->IntersectWithSegment(*this);
+    return other->Intersects(*this);
   }
 
-  bool IntersectWithDot(const TPointObject3D& Dot) const override {
+  bool Intersects(const TPointObject3D& Dot) const override {
     return NS_Intersections::CheckIntersection(*this, Dot);
   }
 
-  bool IntersectWithSegment(const TSegment3D& segment) const override {
+  bool Intersects(const TSegment3D& segment) const override {
     return NS_Intersections::CheckIntersection(*this, segment);
   }
 
-  bool IntersectWithTriangle(const TTriangle3D& triangle) const override {
+  bool Intersects(const TTriangle3D& triangle) const override {
     return NS_Intersections::CheckIntersection(*this, triangle);
   }
 
