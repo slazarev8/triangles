@@ -11,6 +11,8 @@
 #include "triangle3D.h"
 
 namespace NS_Intersections {
+constexpr double InterstctionTolerance = 1e-9;
+
 bool CheckIntersection(const TTriangle3D& triangle1,
                        const TTriangle3D& triangle2) {
   auto edges1 = triangle1.GetEdges();
@@ -78,7 +80,9 @@ bool CheckIntersection(const TTriangle3D& triangle,
 
   auto triangleNormal = vector1.Cross(vector2);
 
-  if ((point.point_ - triangle.GetVertices()[0]).Dot(triangleNormal) != 0) {
+  if (std::fabs(
+          (point.point_ - triangle.GetVertices()[0]).Dot(triangleNormal)) >
+      InterstctionTolerance) {
     return false;
   }
 
@@ -95,6 +99,8 @@ bool CheckIntersection(const TTriangle3D& triangle,
   return (std::abs(totalAngle - 2 * M_PI) < angleTolerance);
 }
 
+// The math behind this code is described here:
+// https://paulbourke.net/geometry/pointlineplane/#i2l
 bool CheckIntersection(const TSegment3D& segment1, const TSegment3D& segment2) {
   TPoint3D p13, p43, p21;
   auto p1 = segment1.P();
@@ -110,13 +116,17 @@ bool CheckIntersection(const TSegment3D& segment1, const TSegment3D& segment2) {
   p43.x = p4.x - p3.x;
   p43.y = p4.y - p3.y;
   p43.z = p4.z - p3.z;
-  if (std::abs(p43.x) < EPS && std::abs(p43.y) < EPS && std::abs(p43.z) < EPS)
+  if (std::abs(p43.x) < InterstctionTolerance &&
+      std::abs(p43.y) < InterstctionTolerance &&
+      std::abs(p43.z) < InterstctionTolerance)
     return false;
 
   p21.x = p2.x - p1.x;
   p21.y = p2.y - p1.y;
   p21.z = p2.z - p1.z;
-  if (std::abs(p21.x) < EPS && std::abs(p21.y) < EPS && std::abs(p21.z) < EPS)
+  if (std::abs(p21.x) < InterstctionTolerance &&
+      std::abs(p21.y) < InterstctionTolerance &&
+      std::abs(p21.z) < InterstctionTolerance)
     return false;
 
   d1343 = p13.x * p43.x + p13.y * p43.y + p13.z * p43.z;
@@ -126,7 +136,7 @@ bool CheckIntersection(const TSegment3D& segment1, const TSegment3D& segment2) {
   d2121 = p21.x * p21.x + p21.y * p21.y + p21.z * p21.z;
 
   denom = d2121 * d4343 - d4321 * d4321;
-  if (std::abs(denom) < EPS) {
+  if (std::abs(denom) < InterstctionTolerance) {
     auto point1 = TPointObject3D(segment2.Q());
     auto point2 = TPointObject3D(segment2.P());
     if (CheckIntersection(segment1, point1) ||

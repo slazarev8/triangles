@@ -38,6 +38,8 @@ struct TPoint3D {
     return {x * scalar, y * scalar, z * scalar};
   }
 
+  double Lenght() const { return sqrt(x * x + y * y + z * z); }
+
   void Dump() const {
     std::cout << "TPoint3D(" << x << ", " << y << ", " << z << ")" << std::endl;
   }

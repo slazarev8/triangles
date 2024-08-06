@@ -11,7 +11,6 @@ namespace NS_Intersections {
 // are intersecting or not  (have at least 1 common point)
 // The Math behind these functions for triangles is described by the link
 // https://en.wikipedia.org/wiki/Hyperplane_separation_theorem
-// and for segments https://paulbourke.net/geometry/pointlineplane/#i2l
 bool CheckIntersection(const TTriangle3D& triangle1,
                        const TTriangle3D& triangle2);
 bool CheckIntersection(const TSegment3D& segment, const TTriangle3D& triangle);

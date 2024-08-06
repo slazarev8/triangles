@@ -42,10 +42,10 @@ double LengthSquared(const TPoint3D& A, const TPoint3D& B) {
 }
 
 double Angle(const TPoint3D& a, const TPoint3D& b) {
-  double dotProduct = a.x * b.x + a.y * b.y + a.z * b.z;
+  double dotProduct = a.Dot(b);
 
-  double thisLength = sqrt(a.x * a.x + a.y * a.y + a.z * a.z);
-  double otherLength = sqrt(b.x * b.x + b.y * b.y + b.z * b.z);
+  double thisLength = a.Lenght();
+  double otherLength = b.Lenght();
 
   double angle = acos(dotProduct / (thisLength * otherLength));
 
